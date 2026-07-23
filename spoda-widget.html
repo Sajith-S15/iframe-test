@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Cricket Q&A Component</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter Tight', sans-serif;
+      
+      
+    }
+    body {
+      background: #FF7640;
+      
+    }
+
+    .cricket-widget {
+      margin: 20px auto;
+      padding: 40px;
+      border-radius: 12px;
+      color: white;
+    }
+
+    /* Top Bar */
+    .widget-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .icons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+     }
+
+    .logos {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+      }
+   .powered {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  font-weight: 400;
+  text-align: center;
+}
+
+.powered a {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;   
+  font-weight: 600;                
+}
+
+.powered a:hover {
+  color: rgba(255, 255, 255, 0.85); /* lighter on hover for elegance */
+}
+
+    .heading {
+      margin: 15px 0;
+      font-size: 28px;
+      font-weight: 600;
+      font:600;
+      
+    }
+
+
+.toggle-buttons {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 300px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f5f6fa; /* light gray like in your image */
+}
+
+.toggle-buttons button {
+  flex: 1;
+  padding: 10px;
+  background: #f5f6fa;
+  color: #1a1a1a;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.toggle-buttons button:not(:last-child) {
+  border-right: 1px solid #ddd;
+}
+
+.toggle-buttons button.active {
+  background: white;
+  color: #1a1a1a;
+}
+
+
+    /* Q&A Section */
+    .qa-section {
+      margin-top: 10px;
+    }
+
+    .question {
+      background: rgba(255, 255, 255, 0.2);
+      width:fit-content;
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      position: relative;
+      padding-left: 25px;
+    }
+
+.question::before {
+  content: "›"; /* right arrow symbol */
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+/* Rotate arrow when open */
+.question.open::before {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+    .answer {
+      max-height: 0;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.2);
+      width: fit-content;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+      padding: 0 10px;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+
+    .answer.open {
+      max-height: 300px; /* big enough for most answers */
+      padding: 10px;
+    }
+
+    /* Responsive rules */
+    @media (max-width: 600px) {
+      
+      .icons {
+        justify-content: center;
+        order: 1;
+        margin-bottom: 10px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .heading {
+        font-size: 18px;
+        order: 2;
+        text-align: left;
+      }
+      .toggle-buttons {
+        width: 254px;
+      }
+    .cricket-widget {
+      padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="cricket-widget">
+    <!-- Top Header -->
+   <div class="widget-header">
+  <div class="heading">
+    <p style="color: white;">Ask Cricket World</p>
+  </div>
+
+  <div class="icons">
+    <div class="logos">
+      <img src="./cricworld.png" style="width: 147px; height: 27px;" alt="Cricket-world">
+      <a href="https://www.spoda.ai/" target="_blank">
+        <img src="./spoda.png" style="width: 95px; height: 36px;" alt="spoda">
+      </a>
+    </div>
+    <p class="powered">Powered by <a href="https://www.spoda.ai" target="_blank"><strong>spoda.ai</strong></a></p>
+  </div>
+</div>
+
+
+
+    <p style="font-size: 14px; font-weight: 400; color: white;">Select a category and click on a question to get the answers</p>
+
+    <!-- Toggle Buttons -->
+    <div class="toggle-buttons">
+      <button class="active" style="font-size: 14px;" onclick="showCategory('batter', event)">Batter</button>
+      <button style="font-size: 14px;" onclick="showCategory('bowler', event)">Bowler</button>
+      <button style="font-size: 14px;" onclick="showCategory('team', event)">Team</button>
+    </div>
+
+    <!-- Q&A Sections -->
+   <div id="batter" class="qa-section" style="display: block;"></div>
+<div id="bowler" class="qa-section" style="display: none;"></div>
+<div id="team" class="qa-section" style="display: none;"></div>
+
+<script>
+  async function fetchQuestions() {
+    
+    try {
+      const res = await fetch("https://api.spoda.ai/question-answer", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+      });
+      
+
+      
+
+     if (!res.ok) {
+        document.getElementById("batter").innerHTML = "<p>⚠️ Failed to load questions. Please try again later.</p>";
+        return;
+      }
+
+
+
+      const data = await res.json();
+      if (data.length === 0) {
+        document.getElementById("batter").innerHTML = "<p>No questions available yet.</p>";
+      }
+
+      renderQuestions(data);
+    } catch (err) {
+      console.error("Fetch failed:", err);
+    }
+  }
+
+  // Render Q&A into sections
+ // Render Q&A into sections
+function renderQuestions(data) {
+  // Clear all old Q&A
+  document.querySelectorAll('.qa-section').forEach(sec => sec.innerHTML = "");
+
+  data.forEach(item => {
+    if (!item.is_active) return;
+
+    // Ensure categories is an array
+    const categories = Array.isArray(item.categories) ? item.categories : [];
+
+    categories.forEach(cat => {
+      const category = cat.trim().toLowerCase();
+      const section = document.getElementById(category);
+
+      if (!section) return; // skip if UI doesn't have this category
+
+      const qDiv = document.createElement("div");
+      qDiv.className = "question";
+      qDiv.innerText = item.question_text;
+      qDiv.onclick = () => toggleAnswer(qDiv);
+
+      const aDiv = document.createElement("div");
+      aDiv.className = "answer";
+      aDiv.innerText = item.answer_text;
+
+      section.appendChild(qDiv);
+      section.appendChild(aDiv);
+    });
+  });
+}
+
+
+  // Expand/collapse logic
+  function toggleAnswer(el) {
+    const answer = el.nextElementSibling;
+
+    if (answer.classList.contains("open")) {
+      answer.classList.remove("open");
+      el.classList.remove("open");
+      return;
+    }
+
+    document.querySelectorAll(".answer.open").forEach(a => a.classList.remove("open"));
+    document.querySelectorAll(".question.open").forEach(q => q.classList.remove("open"));
+
+    el.classList.add("open");
+    answer.classList.add("open");
+  }
+
+  // Load Q&A when widget starts
+  fetchQuestions();
+
+  // Keep your category toggle
+  function showCategory(category, event) {
+    document.querySelectorAll('.qa-section').forEach(sec => sec.style.display = "none");
+    document.getElementById(category).style.display = "block";
+
+    document.querySelectorAll('.toggle-buttons button').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+</script>
+
+
+</body>
+</html>
